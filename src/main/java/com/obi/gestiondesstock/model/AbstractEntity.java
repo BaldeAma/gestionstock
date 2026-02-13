@@ -24,6 +24,7 @@ public class AbstractEntity implements Serializable {
      * Sans que tu écrives de code dans tes services.
      */
 
+    //id tehcnique
     @Id
     @GeneratedValue
     private Integer id;
