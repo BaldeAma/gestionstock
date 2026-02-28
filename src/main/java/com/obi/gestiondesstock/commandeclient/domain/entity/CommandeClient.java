@@ -5,19 +5,16 @@ import com.obi.gestiondesstock.common.domain.AbstractEntity;
 import com.obi.gestiondesstock.common.domain.enums.EtatCommande;
 import com.obi.gestiondesstock.lignecommandeclient.domain.entity.LigneCommandeClient;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @EqualsAndHashCode(callSuper = true)
+@Builder
 @Table(name = "commandeclient" )
 public class CommandeClient extends AbstractEntity {
 
@@ -42,6 +39,5 @@ public class CommandeClient extends AbstractEntity {
 
     @OneToMany(mappedBy = "commandeClient")
     private List<LigneCommandeClient> ligneCommandeClients;
-
 
 }

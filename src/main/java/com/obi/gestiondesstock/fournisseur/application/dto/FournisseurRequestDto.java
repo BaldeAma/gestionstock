@@ -1,20 +1,28 @@
 package com.obi.gestiondesstock.fournisseur.application.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.obi.gestiondesstock.article.application.dto.ArticleRequestDto;
 import com.obi.gestiondesstock.commandefournisseur.application.dto.CommandeFournisseurRequestDto;
+import com.obi.gestiondesstock.commandefournisseur.application.dto.CommandeFournisseurResponseDto;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public record FournisseurRequestDto(
 
-        ArticleRequestDto article,
+        String nom,
 
-        CommandeFournisseurRequestDto commandeFournisseur,
+        String prenom,
 
-        BigDecimal quantite,
+        String photo,
 
-        BigDecimal prixUnitaire,
+        String mail,
 
-        Integer idEntreprise
+        String numTel,
+
+        Integer idEntreprise,
+
+         @JsonIgnore
+        List<CommandeFournisseurResponseDto> commandeFournisseurs
 ) {
 }

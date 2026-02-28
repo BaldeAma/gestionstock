@@ -1,16 +1,17 @@
 package com.obi.gestiondesstock.lignecommandefournisseur.application.dto;
 
-import com.obi.gestiondesstock.article.application.dto.ArticleRequestDto;
-import com.obi.gestiondesstock.commandefournisseur.application.dto.CommandeFournisseurRequestDto;
+import com.obi.gestiondesstock.article.application.dto.ArticleResponseDto;
+import com.obi.gestiondesstock.commandefournisseur.application.dto.CommandeFournisseurResponseDto;
 
 import java.math.BigDecimal;
 
 public record LigneCommandeFournisseurResponseDto(
+
         Integer id,
 
-        ArticleRequestDto article,
+        ArticleResponseDto article,
 
-        CommandeFournisseurRequestDto commandeFournisseur,
+        CommandeFournisseurResponseDto commandeFournisseur,
 
         BigDecimal quantite,
 

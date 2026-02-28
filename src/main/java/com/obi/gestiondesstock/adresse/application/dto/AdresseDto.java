@@ -1,8 +1,9 @@
 package com.obi.gestiondesstock.adresse.application.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 
-public record AdresseResponseDto(
+@Builder
+public record AdresseDto(
 
         String adresse1,
 

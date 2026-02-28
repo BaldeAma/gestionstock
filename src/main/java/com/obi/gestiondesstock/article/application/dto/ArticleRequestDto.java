@@ -26,7 +26,8 @@ public record ArticleRequestDto (
 
         String photo,
 
-        CategoryRequestDto category,
+        @NotNull(message = "La catégorie est obligatoire")
+        Integer categoryId,
 
         @NotNull(message = "Le idEntreprise est obligatoire")
         Integer idEntreprise

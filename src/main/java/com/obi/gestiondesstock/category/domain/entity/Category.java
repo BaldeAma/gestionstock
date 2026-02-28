@@ -6,10 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -19,6 +16,7 @@ import java.util.List;
 @Entity
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "category" )
+@Builder
 public class Category extends AbstractEntity {
 
     @Column(name = "code")
@@ -29,7 +27,6 @@ public class Category extends AbstractEntity {
 
     @Column(name = "identreprise")
     private Integer idEntreprise;
-
 
    @OneToMany(mappedBy = "category")
     private List<Article> articles;

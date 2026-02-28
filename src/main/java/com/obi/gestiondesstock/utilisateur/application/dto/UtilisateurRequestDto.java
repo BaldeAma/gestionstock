@@ -1,6 +1,6 @@
 package com.obi.gestiondesstock.utilisateur.application.dto;
 
-import com.obi.gestiondesstock.adresse.application.dto.AdresseRequestDto;
+import com.obi.gestiondesstock.adresse.application.dto.AdresseDto;
 import com.obi.gestiondesstock.entreprise.application.dto.EntrepriseRequestDto;
 import com.obi.gestiondesstock.roles.application.dto.RolesRequestDto;
 
@@ -19,7 +19,7 @@ public record UtilisateurRequestDto(
 
         String moteDePasse,
 
-        AdresseRequestDto adresse,
+        AdresseDto adresse,
 
         String photo,
 

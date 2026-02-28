@@ -5,10 +5,7 @@ import com.obi.gestiondesstock.common.domain.enums.EtatCommande;
 import com.obi.gestiondesstock.fournisseur.domain.entity.Fournisseur;
 import com.obi.gestiondesstock.lignecommandefournisseur.domain.entity.LigneCommandeFournisseur;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.List;
@@ -18,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @EqualsAndHashCode(callSuper = true)
+@Builder
 @Table(name = "commandefournisseur" )
 public class CommandeFournisseur extends AbstractEntity {
 

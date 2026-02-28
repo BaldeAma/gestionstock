@@ -2,12 +2,13 @@ package com.obi.gestiondesstock.article.domain.entity;
 
 import com.obi.gestiondesstock.common.domain.AbstractEntity;
 import com.obi.gestiondesstock.category.domain.entity.Category;
+import com.obi.gestiondesstock.lignecommandeclient.domain.entity.LigneCommandeClient;
+import com.obi.gestiondesstock.lignecommandefournisseur.domain.entity.LigneCommandeFournisseur;
 import com.obi.gestiondesstock.lignevente.domain.entity.LigneVente;
+import com.obi.gestiondesstock.mvtstk.domain.entity.MvtStk;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "article" )
+@Builder
 public class Article extends AbstractEntity {
 
     @Column(name = "codearticle")
@@ -44,18 +46,13 @@ public class Article extends AbstractEntity {
     @OneToMany(mappedBy = "article")
     private List<LigneVente> ligneVentes;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idcategory")
     private Category category;
     /**
      * chaque article appartient à une categorie
      * idcategory est une cle etrangere
      */
-
-    /*
-    @ManyToOne
-    @JoinColumn(name = "idcategory")
-    private Category category;
 
     @OneToMany(mappedBy = "article")
     private List<LigneCommandeClient> ligneCommandeClients;
@@ -65,6 +62,5 @@ public class Article extends AbstractEntity {
 
     @OneToMany(mappedBy = "article")
     private List<MvtStk> mvtStks;
-    */
 
 }
