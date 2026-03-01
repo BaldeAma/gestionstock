@@ -3,6 +3,7 @@ package com.obi.gestiondesstock.client.application.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.obi.gestiondesstock.adresse.application.dto.AdresseDto;
 import com.obi.gestiondesstock.commandeclient.application.dto.CommandeClientRequestDto;
+import com.obi.gestiondesstock.commandeclient.application.dto.CommandeClientResponseDto;
 import lombok.Builder;
 
 import java.util.List;
@@ -27,5 +28,5 @@ public record ClientResponseDto(
         Integer idEntreprise,
 
         @JsonIgnore
-        List<CommandeClientRequestDto> commandeClients
+        List<CommandeClientResponseDto> commandeClients
 ) {}

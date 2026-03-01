@@ -2,14 +2,15 @@ package com.obi.gestiondesstock.utilisateur.application.dto;
 
 import com.obi.gestiondesstock.adresse.application.dto.AdresseDto;
 import com.obi.gestiondesstock.entreprise.application.dto.EntrepriseRequestDto;
+import com.obi.gestiondesstock.entreprise.application.dto.EntrepriseResponseDto;
 import com.obi.gestiondesstock.roles.application.dto.RolesRequestDto;
+import com.obi.gestiondesstock.roles.application.dto.RolesResponseDto;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 import java.time.Instant;
 import java.util.List;
 
-public record UtilisateurRequestDto(
+public record UtilisateurResponseDto(
 
         @NotEmpty(message = "le Nom est obligatoir")
         String nom,
@@ -28,8 +29,8 @@ public record UtilisateurRequestDto(
 
         String photo,
 
-        EntrepriseRequestDto entreprise,
+        EntrepriseResponseDto entreprise,
 
-        List<RolesRequestDto> roles
+        List<RolesResponseDto> roles
 ) {
 }

@@ -22,7 +22,7 @@ import java.util.List;
 @Builder
 public class Article extends AbstractEntity {
 
-    @Column(name = "codearticle")
+    @Column(name = "codearticle",nullable = false, unique = true)
     private String codeArticle;
 
     @Column(name = "designation")

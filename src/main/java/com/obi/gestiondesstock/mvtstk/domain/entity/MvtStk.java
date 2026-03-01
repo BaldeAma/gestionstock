@@ -18,7 +18,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "mvtStk" )
+@Table(name = "mvtstk" )
 public class MvtStk extends AbstractEntity {
 
     @Column(name = "datemvt")
