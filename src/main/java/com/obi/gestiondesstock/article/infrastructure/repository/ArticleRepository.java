@@ -18,4 +18,7 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
     //recherche par like
     Optional<Article>findByCodeArticleContainingIgnoreCase (String codeArticle);
 
+    //verfier si codeArticle n'existe pas
+    boolean existsByCodeArticle(String codeArticle);
+
 }

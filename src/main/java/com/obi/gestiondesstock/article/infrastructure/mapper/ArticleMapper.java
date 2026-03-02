@@ -6,7 +6,7 @@ import com.obi.gestiondesstock.article.domain.entity.Article;
 import com.obi.gestiondesstock.category.domain.entity.Category;
 
 public class ArticleMapper {
-    public static Article toEntity(ArticleRequestDto dto, Category category) {
+    public static Article toEntity(ArticleRequestDto dto) {
 
         return Article.builder()
                 .codeArticle(dto.codeArticle())
@@ -16,7 +16,6 @@ public class ArticleMapper {
                 .prixUnitaireTtc(dto.prixUnitaireTtc())
                 .photo(dto.photo())
                 .idEntreprise(dto.idEntreprise())
-                .category(category)
                 .build();
     }
 

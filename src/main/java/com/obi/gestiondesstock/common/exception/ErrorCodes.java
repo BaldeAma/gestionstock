@@ -5,9 +5,13 @@ import lombok.Data;
 
 public enum ErrorCodes {
 
+    //EXISTS  = doublon
+    //IN_USE  = dépendance
+
     ARTICLE_NOT_FOUND(1000),
     ARTICLE_NOT_VALID(1001),
     ARTICLE_ALREADY_IN_USE(1002),
+    ARTICLE_ALREADY_EXISTS(1003),
 
     CATEGORY_NOT_FOUND(2000),
     CATEGORY_NOT_VALID(2001),
