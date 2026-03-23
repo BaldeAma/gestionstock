@@ -1,5 +1,7 @@
 package com.obi.gestiondesstock.lignecommandeclient.infrastructure.mapper;
 
+import com.obi.gestiondesstock.article.infrastructure.mapper.ArticleMapper;
+import com.obi.gestiondesstock.commandeclient.infrastructure.mapper.CommandeClientMapper;
 import com.obi.gestiondesstock.lignecommandeclient.application.dto.LigneCommandeClientRequestDto;
 import com.obi.gestiondesstock.lignecommandeclient.application.dto.LigneCommandeClientResponseDto;
 import com.obi.gestiondesstock.lignecommandeclient.domain.entity.LigneCommandeClient;
@@ -7,12 +9,30 @@ import com.obi.gestiondesstock.lignecommandeclient.domain.entity.LigneCommandeCl
 public class LigneCommandeClientMapper {
     //entity --> dto
     public static LigneCommandeClientResponseDto toResponseDto(LigneCommandeClient commandeClient){
-        return null;
+        if(commandeClient == null){
+            return null;
+        }
+        return new LigneCommandeClientResponseDto(
+                commandeClient.getId(),
+                ArticleMapper.toResponseDto(commandeClient.getArticle()),
+                CommandeClientMapper.toResponse(commandeClient.getCommandeClient()),
+                commandeClient.getQuantite(),
+                commandeClient.getPrixUnitaire(),
+                commandeClient.getIdEntreprise()
+        );
     }
 
 
     //dto --> entity
     public static LigneCommandeClient toEntity(LigneCommandeClientRequestDto dto){
-        return null;
+        return  LigneCommandeClient.builder()
+                .id(dto.id())
+                .article(ArticleMapper.toEntity(dto.article()))
+                .commandeClient(CommandeClientMapper.toEntity(dto.commandeClient()))
+                .quantite(dto.quantite())
+                .prixUnitaire(dto.prixUnitaire())
+                .idEntreprise(dto.idEntreprise())
+                .build();
+
     }
 }

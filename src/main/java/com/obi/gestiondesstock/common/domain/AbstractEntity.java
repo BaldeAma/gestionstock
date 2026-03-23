@@ -1,8 +1,10 @@
 package com.obi.gestiondesstock.common.domain;
 
 import jakarta.persistence.*;
+
 import lombok.Data;
-import lombok.Setter;
+
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -13,6 +15,8 @@ import java.time.Instant;
 
 @Data
 @MappedSuperclass
+@NoArgsConstructor
+@SuperBuilder
 @EntityListeners(AuditingEntityListener.class)
 public class AbstractEntity implements Serializable {
     /**

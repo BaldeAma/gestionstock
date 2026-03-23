@@ -25,4 +25,6 @@ public interface ArticleService {
     //delete
     public void deleteById (Integer id);
 
+    public List<ArticleResponseDto> findAllByCategoryId (Integer idCategory);
+
 }

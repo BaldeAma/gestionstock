@@ -5,6 +5,7 @@ import com.obi.gestiondesstock.adresse.domain.entity.Adresse;
 import com.obi.gestiondesstock.commandeclient.domain.entity.CommandeClient;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @EqualsAndHashCode(callSuper = true)
-@Builder
+@SuperBuilder
 @Table(name = "client" )
 public class Client extends AbstractEntity {
 

@@ -19,7 +19,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "article" )
-@Builder
+@SuperBuilder
 public class Article extends AbstractEntity {
 
     @Column(name = "codearticle",nullable = false, unique = true)

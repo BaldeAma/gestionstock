@@ -9,6 +9,7 @@ public class ArticleMapper {
     public static Article toEntity(ArticleRequestDto dto) {
 
         return Article.builder()
+                .id(dto.id())
                 .codeArticle(dto.codeArticle())
                 .designation(dto.designation())
                 .prixUnitaireHt(dto.prixUnitaireHt())
@@ -25,6 +26,8 @@ public class ArticleMapper {
             return null;
         }
 
+        Category category=article.getCategory();
+
         return new ArticleResponseDto(
                 article.getId(),
                 article.getCodeArticle(),
@@ -34,9 +37,14 @@ public class ArticleMapper {
                 article.getPrixUnitaireTtc(),
                 article.getPhoto(),
                 article.getIdEntreprise(),
-                article.getCategory() != null ? article.getCategory().getId() : null,
-                article.getCategory() != null ? article.getCategory().getCode() : null,
-                article.getCategory() != null ? article.getCategory().getDesignation() : null
+                //donnée category
+                //on verifie que l'objet category n'est pas null, on recupere l'id, sinon on retourne null
+                //article.getCategory() != null ? article.getCategory().getId() : null,
+                //article.getCategory() != null ? article.getCategory().getCode() : null,
+                //article.getCategory() != null ? article.getCategory().getDesignation() : null
+                category != null ? category.getId() : null,
+                category != null ? category.getCode() : null,
+                category != null ? category.getDesignation() : null
         );
     }
 }

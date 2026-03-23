@@ -12,13 +12,11 @@ import java.util.List;
 public class CommandeClientMapper {
 
     //entity --> dto
-    public static CommandeClientResponseDto toDto(CommandeClient commandeClient){
+    public static CommandeClientResponseDto toResponse(CommandeClient commandeClient) {
 
-        if(commandeClient == null) return null;
+        if (commandeClient == null) return null;
 
-
-
-        return new  CommandeClientResponseDto(
+        return new CommandeClientResponseDto(
                 commandeClient.getId(),
                 commandeClient.getCode(),
                 commandeClient.getDateCommande(),
@@ -31,13 +29,12 @@ public class CommandeClientMapper {
                         .map(LigneCommandeClientMapper::toResponseDto)
                         .toList()
                         : List.of()
-
-        ) ;
+        );
     }
 
 
     //dto --> entity
-    public static CommandeClient toEntity (CommandeClientRequestDto dto){
+    public static CommandeClient toEntity(CommandeClientRequestDto dto) {
 
         if (dto == null) return null;
 

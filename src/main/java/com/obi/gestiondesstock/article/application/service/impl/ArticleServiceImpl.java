@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,8 +44,8 @@ public class ArticleServiceImpl implements ArticleService {
          */
         //verrifier si le code de l'article n'existe pas avant insertion
 
-        if(articleRepository.existsByCodeArticle(dto.codeArticle())){
-            throw new EntityNotFoundException("Un article avec ce code existe deja",ErrorCodes.ARTICLE_ALREADY_EXISTS);
+        if (articleRepository.existsByCodeArticle(dto.codeArticle())) {
+            throw new EntityNotFoundException("Un article avec ce code existe deja", ErrorCodes.ARTICLE_ALREADY_EXISTS);
         }
 
         return ArticleMapper.toResponseDto(articleRepository.save(ArticleMapper.toEntity(dto)));
@@ -54,26 +55,26 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional(readOnly = true)
     public ArticleResponseDto findById(Integer id) {
 
-        if(id ==null){
+        if (id == null) {
             throw new IllegalArgumentException("l' id ne peut pas etre null");
         }
 
         return articleRepository.findById(id)
                 .map(ArticleMapper::toResponseDto)
-                .orElseThrow(()-> new EntityNotFoundException("Aucun article avec l'id = "+id+" n'est present dans la BD", ErrorCodes.ARTICLE_NOT_FOUND));
+                .orElseThrow(() -> new EntityNotFoundException("Aucun article avec l'id = " + id + " n'est present dans la BD", ErrorCodes.ARTICLE_NOT_FOUND));
     }
 
     @Override
     @Transactional(readOnly = true)
     public ArticleResponseDto findByCodeArticle(String codeArticle) {
         //verfier que code article n'est pas null --> validation technique bean
-        if(codeArticle==null){
+        if (codeArticle == null) {
             log.error("le code article est null");
-            return null ;
+            return null;
         }
         return articleRepository.findArticleByCodeArticle(codeArticle)
                 .map(ArticleMapper::toResponseDto)
-                .orElseThrow(()->new EntityNotFoundException("Aucun article avec le code "+codeArticle+" n'est present dans la BD",ErrorCodes.ARTICLE_NOT_FOUND ));
+                .orElseThrow(() -> new EntityNotFoundException("Aucun article avec le code " + codeArticle + " n'est present dans la BD", ErrorCodes.ARTICLE_NOT_FOUND));
     }
 
     // une liste vide = 200
@@ -85,16 +86,27 @@ public class ArticleServiceImpl implements ArticleService {
                 .findAll()
                 .stream()
                 .map(ArticleMapper::toResponseDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
     @Transactional
     public void deleteById(Integer id) {
-        if(id == null){
+        if (id == null) {
             log.error("l' id est vide");
             return;
         }
         articleRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ArticleResponseDto> findAllByCategoryId(Integer idCategory) {
+
+        if (idCategory == null) throw new IllegalArgumentException("l 'id category est vide");
+
+        return articleRepository.findAllByCategoryId(idCategory)
+                .stream()
+                .map(ArticleMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 }

@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @Entity
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "category" )
-@Builder
+@SuperBuilder
 public class Category extends AbstractEntity {
 
     @Column(name = "code")
@@ -34,5 +35,4 @@ public class Category extends AbstractEntity {
      * une categorie possede plusieurs articles donc la clé etrangere doit etre dans Articles (category_id)
      mappedBy indique que la clé étrangère est dans l’autre entité (Article).
      */
-
 }

@@ -6,6 +6,7 @@ import com.obi.gestiondesstock.fournisseur.domain.entity.Fournisseur;
 import com.obi.gestiondesstock.lignecommandefournisseur.domain.entity.LigneCommandeFournisseur;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @EqualsAndHashCode(callSuper = true)
-@Builder
+@SuperBuilder
 @Table(name = "commandefournisseur" )
 public class CommandeFournisseur extends AbstractEntity {
 
@@ -38,6 +39,5 @@ public class CommandeFournisseur extends AbstractEntity {
 
     @OneToMany(mappedBy = "commandeFournisseur")
     private List<LigneCommandeFournisseur> ligneCommandeFournisseurs;
-
 
 }

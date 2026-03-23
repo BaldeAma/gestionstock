@@ -10,6 +10,9 @@ import java.math.BigDecimal;
 public record ArticleRequestDto (
         // pour creer / modifier
 
+        @NotNull(message = "L'id est obligatoire")
+        Integer id,
+
         @NotNull(message = "Le code article est obligatoire")
         String codeArticle,
 
