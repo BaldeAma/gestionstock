@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
 
-    public static ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
 
     @Override
     public ClientResponseDto save(ClientRequestDto dto) {

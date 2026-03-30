@@ -9,6 +9,8 @@ import java.util.Optional;
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     Optional<Category> findCategoryByCode (String code);
+
+    //verifier si le code  fourni exist
     boolean existsByCode(String code);
 
 }

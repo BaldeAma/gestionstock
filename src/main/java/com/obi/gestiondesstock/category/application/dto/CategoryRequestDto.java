@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotNull;
 
 public record CategoryRequestDto(
 
+        //@NotEmpty(message = "L' id est obligatoire")
+        Integer id,
+
         @NotEmpty(message = "Le code de la category est obligatoire")
         @NotNull
         String code,

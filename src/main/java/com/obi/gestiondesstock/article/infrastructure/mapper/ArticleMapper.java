@@ -6,7 +6,16 @@ import com.obi.gestiondesstock.article.domain.entity.Article;
 import com.obi.gestiondesstock.category.domain.entity.Category;
 
 public class ArticleMapper {
+
     public static Article toEntity(ArticleRequestDto dto) {
+
+        //faire le mapping de categoryId dans le service article.save, plus propre
+        //tout en verifiant si categoryId est present en bd
+
+        /*Category category=null;
+        category=Category.builder()
+                .id(dto.categoryId())
+                .build(); */
 
         return Article.builder()
                 .id(dto.id())
@@ -17,6 +26,7 @@ public class ArticleMapper {
                 .prixUnitaireTtc(dto.prixUnitaireTtc())
                 .photo(dto.photo())
                 .idEntreprise(dto.idEntreprise())
+             // .category(category)
                 .build();
     }
 

@@ -5,4 +5,5 @@ public interface Constants {
     String ARTICLE = APP_ROOT+"/articles";
     String COMMANDE_CLIENT=APP_ROOT+"/commandesclients";
     String CLIENT = APP_ROOT+"/clients";
+    String CATEGORY = APP_ROOT+"/category";
 }

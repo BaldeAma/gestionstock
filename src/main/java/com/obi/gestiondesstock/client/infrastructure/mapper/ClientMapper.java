@@ -13,7 +13,6 @@ public class ClientMapper {
 
         return ClientResponseDto.builder()
                 .id(client.getId())
-                .id(client.getId())
                 .nom(client.getNom())
                 .prenom(client.getPrenom())
                 .adresse(AdresseMapper.toDto(client.getAdresse()))

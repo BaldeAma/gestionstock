@@ -3,8 +3,11 @@ package com.obi.gestiondesstock.article.application.service.impl;
 import com.obi.gestiondesstock.article.application.dto.ArticleRequestDto;
 import com.obi.gestiondesstock.article.application.dto.ArticleResponseDto;
 import com.obi.gestiondesstock.article.application.service.ArticleService;
+import com.obi.gestiondesstock.article.domain.entity.Article;
 import com.obi.gestiondesstock.article.infrastructure.mapper.ArticleMapper;
 import com.obi.gestiondesstock.article.infrastructure.repository.ArticleRepository;
+import com.obi.gestiondesstock.category.domain.entity.Category;
+import com.obi.gestiondesstock.category.infrastructure.repository.CategoryRepository;
 import com.obi.gestiondesstock.common.exception.EntityNotFoundException;
 import com.obi.gestiondesstock.common.exception.ErrorCodes;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,7 @@ import java.util.stream.Collectors;
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final CategoryRepository categoryRepository;
 
   /*
   //injection par constructeur @RequiredArgsConstructor, recommander par spring
@@ -43,12 +47,18 @@ public class ArticleServiceImpl implements ArticleService {
          *     }
          */
         //verrifier si le code de l'article n'existe pas avant insertion
-
         if (articleRepository.existsByCodeArticle(dto.codeArticle())) {
             throw new EntityNotFoundException("Un article avec ce code existe deja", ErrorCodes.ARTICLE_ALREADY_EXISTS);
         }
+        //verifier que categoryId existe en BD category.findById
+        Category category = categoryRepository.findById(dto.categoryId())
+                .orElseThrow(()-> new EntityNotFoundException("Category id "+dto.categoryId()+" non present en BD", ErrorCodes.CATEGORY_NOT_VALID));
 
-        return ArticleMapper.toResponseDto(articleRepository.save(ArticleMapper.toEntity(dto)));
+        //Mapping, setting de category
+        Article article = ArticleMapper.toEntity(dto);
+        article.setCategory(category);
+
+        return ArticleMapper.toResponseDto(articleRepository.save(article));
     }
 
     @Override

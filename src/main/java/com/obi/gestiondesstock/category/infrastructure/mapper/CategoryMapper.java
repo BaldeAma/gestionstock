@@ -23,6 +23,7 @@ public class CategoryMapper {
         if(dto == null) return null;
 
         return Category.builder()
+                .id(dto.id())
                 .idEntreprise(dto.idEntreprise())
                 .code(dto.code())
                 .designation(dto.designation())

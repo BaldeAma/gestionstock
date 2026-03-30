@@ -29,10 +29,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CommandeClientServiceImpl implements CommandeClientService {
 
-    public static ArticleRepository articleRepository;
-    public static ClientRepository clientRepository;
-    public static CommandeClientRepository commandeClientRepository;
-    public static LigneCommandeClientRepository ligneCommandeClientRepository;
+    private final ArticleRepository articleRepository;
+    private final ClientRepository clientRepository;
+    private final CommandeClientRepository commandeClientRepository;
+    private final LigneCommandeClientRepository ligneCommandeClientRepository;
 
     @Override
     public CommandeClientResponseDto save(CommandeClientRequestDto dto) {
