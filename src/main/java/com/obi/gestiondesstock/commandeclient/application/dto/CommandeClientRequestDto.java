@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 public record CommandeClientRequestDto(
 
-        @NotNull(message = "L'id est obligatoire")
+        //@NotNull(message = "L'id est obligatoire")
         Integer id,
 
         @NotNull(message = "le code ne peut pas etre null")

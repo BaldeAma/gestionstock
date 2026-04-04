@@ -41,7 +41,7 @@ public class CommandeClientMapper {
         return CommandeClient.builder()
                 .idEntreprise(dto.idEntreprise())
                 .code(dto.code())
-                .client(ClientMapper.toEntity(dto.client()))
+                //.client(ClientMapper.toEntity(dto.client()))
                 .dateCommande(dto.dateCommande())
                 .etatCommande(dto.etatCommande())
                 .idEntreprise(dto.idEntreprise())

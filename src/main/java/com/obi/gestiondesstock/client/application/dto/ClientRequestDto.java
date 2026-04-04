@@ -1,5 +1,6 @@
 package com.obi.gestiondesstock.client.application.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.obi.gestiondesstock.adresse.application.dto.AdresseDto;
 import com.obi.gestiondesstock.commandeclient.application.dto.CommandeClientRequestDto;
 import jakarta.validation.Valid;
@@ -30,5 +31,6 @@ public record ClientRequestDto(
 
         Integer idEntreprise,
 
+        @JsonIgnore
         List<CommandeClientRequestDto> commandeClients
 ) {}

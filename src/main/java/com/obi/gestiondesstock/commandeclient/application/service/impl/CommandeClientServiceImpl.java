@@ -19,7 +19,6 @@ import com.obi.gestiondesstock.lignecommandeclient.infrastructure.repository.Lig
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +36,7 @@ public class CommandeClientServiceImpl implements CommandeClientService {
     @Override
     public CommandeClientResponseDto save(CommandeClientRequestDto dto) {
         if(dto ==null){
-            throw new IllegalArgumentException("l' objet commade Client ne peut pas etre null");
+            throw new IllegalArgumentException("l' objet commande Client ne peut pas etre null");
         }
         //verifier le client existe BD via l'id client, modifier le clientrequestDto en rajoutant l'idclient
         Optional<Client> client=clientRepository.findById(dto.client().id());
@@ -73,6 +72,7 @@ public class CommandeClientServiceImpl implements CommandeClientService {
         if(dto.ligneCommandeClients()!=null){
             dto.ligneCommandeClients().forEach(ligCmdClt ->{
                 LigneCommandeClient ligneCommandeClient= LigneCommandeClientMapper.toEntity(ligCmdClt);
+                ligneCommandeClient.setId(null);
                 ligneCommandeClient.setCommandeClient(savedCommandeClient);
                 ligneCommandeClient.setIdEntreprise(dto.idEntreprise());
                 LigneCommandeClient savedLigneCommandeClient=ligneCommandeClientRepository.save(ligneCommandeClient);

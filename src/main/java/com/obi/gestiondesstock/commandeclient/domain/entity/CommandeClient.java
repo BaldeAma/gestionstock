@@ -31,7 +31,6 @@ public class CommandeClient extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private EtatCommande etatCommande;
 
-
     @Column(name = "identreprise")
     private Integer idEntreprise;
 

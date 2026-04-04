@@ -14,7 +14,6 @@ import static com.obi.gestiondesstock.common.config.Constants.COMMANDE_CLIENT;
 @RequestMapping(COMMANDE_CLIENT)
 public interface CommandeClientApi {
 
-
     @PostMapping
     ResponseEntity<CommandeClientResponseDto> save (@Valid @RequestBody CommandeClientRequestDto dto);
 
