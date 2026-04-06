@@ -27,12 +27,6 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
     private final CategoryRepository categoryRepository;
 
-  /*
-  //injection par constructeur @RequiredArgsConstructor, recommander par spring
-  @Autowired
-    public ArticleServiceImpl(ArticleRepository articleRepository){
-        this.articleRepository=articleRepository;
-    }*/
 
     @Override
     @Transactional

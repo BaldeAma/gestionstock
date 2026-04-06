@@ -32,7 +32,7 @@ public class AbstractEntity implements Serializable {
 
     //id tehcnique
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @CreatedDate

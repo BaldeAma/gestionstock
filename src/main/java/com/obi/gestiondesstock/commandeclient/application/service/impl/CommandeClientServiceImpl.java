@@ -10,6 +10,7 @@ import com.obi.gestiondesstock.commandeclient.application.service.CommandeClient
 import com.obi.gestiondesstock.commandeclient.domain.entity.CommandeClient;
 import com.obi.gestiondesstock.commandeclient.infrastructure.mapper.CommandeClientMapper;
 import com.obi.gestiondesstock.commandeclient.infrastructure.repository.CommandeClientRepository;
+import com.obi.gestiondesstock.common.domain.enums.EtatCommande;
 import com.obi.gestiondesstock.common.exception.EntityNotFoundException;
 import com.obi.gestiondesstock.common.exception.ErrorCodes;
 import com.obi.gestiondesstock.common.exception.InvalidEntityException;
@@ -17,13 +18,16 @@ import com.obi.gestiondesstock.lignecommandeclient.domain.entity.LigneCommandeCl
 import com.obi.gestiondesstock.lignecommandeclient.infrastructure.mapper.LigneCommandeClientMapper;
 import com.obi.gestiondesstock.lignecommandeclient.infrastructure.repository.LigneCommandeClientRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CommandeClientServiceImpl implements CommandeClientService {
@@ -35,47 +39,53 @@ public class CommandeClientServiceImpl implements CommandeClientService {
 
     @Override
     public CommandeClientResponseDto save(CommandeClientRequestDto dto) {
-        if(dto ==null){
+        if (dto == null) {
             throw new IllegalArgumentException("l' objet commande Client ne peut pas etre null");
         }
         //verifier le client existe BD via l'id client, modifier le clientrequestDto en rajoutant l'idclient
-        Optional<Client> client=clientRepository.findById(dto.client().id());
-        if(client.isEmpty()){
-            throw new EntityNotFoundException("Aucun client avec l'id "+dto.client().id()+" n'est present en BD", ErrorCodes.CLIENT_NOT_FOUND);
+//        log.info("idClient "+ dto.client().id());
+        Optional<Client> client = clientRepository.findById(dto.client().id());
+        if (client.isEmpty()) {
+            throw new EntityNotFoundException("Aucun client avec l'id " + dto.client().id() + " n'est present en BD", ErrorCodes.CLIENT_NOT_FOUND);
         }
-
         //verifier que les articles existes en BD
-
-        List<String> articlesErrors=new ArrayList<>();
-        if(dto.ligneCommandeClients()!=null){
+        List<String> articlesErrors = new ArrayList<>();
+        if (dto.ligneCommandeClients() != null) {
             dto.ligneCommandeClients().forEach(
-                    ligCmdClt->{
-                        if(ligCmdClt.article()!=null){
+                    ligCmdClt -> {
+                        if (ligCmdClt.article() != null) {
                             //verifier que chaque existe en BD
-                            Optional<Article> article= articleRepository.findById(ligCmdClt.article().id());
-                            if(article.isEmpty()){
-                                articlesErrors.add("L'article avec l'id "+ligCmdClt.article().id()+" n'existe pas");
+                            Optional<Article> article = articleRepository.findById(ligCmdClt.article().id());
+                            if (article.isEmpty()) {
+                                articlesErrors.add("L'article avec l'id " + ligCmdClt.article().id() + " n'existe pas");
                             }
-                        }else {
+                        } else {
                             articlesErrors.add("Impossible d'enregistrer une commande avec un article NULL");
                         }
                     }
             );
         }
-        if(!articlesErrors.isEmpty()){
-            throw new InvalidEntityException("L'article n'existe pas dans la BD", ErrorCodes.ARTICLE_NOT_FOUND,articlesErrors);
+        if (!articlesErrors.isEmpty()) {
+            throw new InvalidEntityException("L'article n'existe pas dans la BD", ErrorCodes.ARTICLE_NOT_FOUND, articlesErrors);
         }
         //Mise a jour de la date de commande --> todo
         //enregistrer la commandeclient
-        CommandeClient savedCommandeClient=commandeClientRepository.save(CommandeClientMapper.toEntity(dto));
+        CommandeClient commandeClient = CommandeClientMapper.toEntity(dto);
+        //injecter le vrai client recuperer en base avant insertion
+        commandeClient.setClient(client.get());
+        //initialiser l'etat de la commande
+        commandeClient.setEtatCommande(EtatCommande.EN_PREPARATION);
+        //modifier la date de commande
+        commandeClient.setDateCommande(Instant.now());
+        CommandeClient savedCommandeClient = commandeClientRepository.save(commandeClient);
         //enregistrer la lignecommandeclient --> assigner saveCommandeClient à ligneCommandeClient
-        if(dto.ligneCommandeClients()!=null){
-            dto.ligneCommandeClients().forEach(ligCmdClt ->{
-                LigneCommandeClient ligneCommandeClient= LigneCommandeClientMapper.toEntity(ligCmdClt);
+        if (dto.ligneCommandeClients() != null) {
+            dto.ligneCommandeClients().forEach(ligCmdClt -> {
+                LigneCommandeClient ligneCommandeClient = LigneCommandeClientMapper.toEntity(ligCmdClt);
                 ligneCommandeClient.setId(null);
                 ligneCommandeClient.setCommandeClient(savedCommandeClient);
                 ligneCommandeClient.setIdEntreprise(dto.idEntreprise());
-                LigneCommandeClient savedLigneCommandeClient=ligneCommandeClientRepository.save(ligneCommandeClient);
+                LigneCommandeClient savedLigneCommandeClient = ligneCommandeClientRepository.save(ligneCommandeClient);
             });
         }
 
@@ -84,7 +94,7 @@ public class CommandeClientServiceImpl implements CommandeClientService {
 
     @Override
     public List<CommandeClientResponseDto> findByCode(String code) {
-        if(code == null){
+        if (code == null) {
             throw new IllegalArgumentException("le code ne peut pas etre null");
         }
         return commandeClientRepository
@@ -96,12 +106,12 @@ public class CommandeClientServiceImpl implements CommandeClientService {
 
     @Override
     public CommandeClientResponseDto findById(Integer id) {
-        if(id==null){
-            throw new  IllegalArgumentException("l'id est obligatoire ");
+        if (id == null) {
+            throw new IllegalArgumentException("l'id est obligatoire ");
         }
         return commandeClientRepository.findById(id)
                 .map(CommandeClientMapper::toResponse)
-                .orElseThrow(()->new EntityNotFoundException("Aucune commande client n'a ete trouve avec l' id "+id, ErrorCodes.COMMANDE_CLIENT_NOT_FOUND));
+                .orElseThrow(() -> new EntityNotFoundException("Aucune commande client n'a ete trouve avec l' id " + id, ErrorCodes.COMMANDE_CLIENT_NOT_FOUND));
     }
 
     @Override
