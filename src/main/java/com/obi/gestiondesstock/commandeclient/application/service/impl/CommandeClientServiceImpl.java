@@ -43,7 +43,7 @@ public class CommandeClientServiceImpl implements CommandeClientService {
             throw new IllegalArgumentException("l' objet commande Client ne peut pas etre null");
         }
         //verifier le client existe BD via l'id client, modifier le clientrequestDto en rajoutant l'idclient
-//        log.info("idClient "+ dto.client().id());
+//       log.info("idClient "+ dto.client().id());
         Optional<Client> client = clientRepository.findById(dto.client().id());
         if (client.isEmpty()) {
             throw new EntityNotFoundException("Aucun client avec l'id " + dto.client().id() + " n'est present en BD", ErrorCodes.CLIENT_NOT_FOUND);
@@ -88,7 +88,6 @@ public class CommandeClientServiceImpl implements CommandeClientService {
                 LigneCommandeClient savedLigneCommandeClient = ligneCommandeClientRepository.save(ligneCommandeClient);
             });
         }
-
         return CommandeClientMapper.toResponse(savedCommandeClient);
     }
 

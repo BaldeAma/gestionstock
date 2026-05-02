@@ -2,9 +2,8 @@ package com.obi.gestiondesstock.lignevente.domain.entity;
 
 import com.obi.gestiondesstock.article.domain.entity.Article;
 import com.obi.gestiondesstock.common.domain.AbstractEntity;
-import com.obi.gestiondesstock.vente.domain.entity.Ventes;
+import com.obi.gestiondesstock.ventes.domain.entity.Ventes;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
