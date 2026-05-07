@@ -22,7 +22,8 @@ public record CommandeClientRequestDto(
 
         EtatCommande etatCommande,
 
-        ClientRequestDto client,
+        //ClientRequestDto client,
+        Integer idClient,
 
         Integer idEntreprise,
 

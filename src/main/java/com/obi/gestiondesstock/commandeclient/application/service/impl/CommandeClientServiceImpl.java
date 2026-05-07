@@ -44,20 +44,20 @@ public class CommandeClientServiceImpl implements CommandeClientService {
         }
         //verifier le client existe BD via l'id client, modifier le clientrequestDto en rajoutant l'idclient
 //       log.info("idClient "+ dto.client().id());
-        Optional<Client> client = clientRepository.findById(dto.client().id());
+        Optional<Client> client = clientRepository.findById(dto.idClient());
         if (client.isEmpty()) {
-            throw new EntityNotFoundException("Aucun client avec l'id " + dto.client().id() + " n'est present en BD", ErrorCodes.CLIENT_NOT_FOUND);
+            throw new EntityNotFoundException("Aucun client avec l'id " + dto.idClient() + " n'est present en BD", ErrorCodes.CLIENT_NOT_FOUND);
         }
         //verifier que les articles existes en BD
         List<String> articlesErrors = new ArrayList<>();
         if (dto.ligneCommandeClients() != null) {
             dto.ligneCommandeClients().forEach(
                     ligCmdClt -> {
-                        if (ligCmdClt.article() != null) {
-                            //verifier que chaque existe en BD
-                            Optional<Article> article = articleRepository.findById(ligCmdClt.article().id());
+                        if (ligCmdClt.idArticle() != null) {
+                            //verifier que chaque idArticle existe en BD
+                            Optional<Article> article = articleRepository.findById(ligCmdClt.idArticle());
                             if (article.isEmpty()) {
-                                articlesErrors.add("L'article avec l'id " + ligCmdClt.article().id() + " n'existe pas");
+                                articlesErrors.add("L'article avec l'id " + ligCmdClt.idArticle() + " n'existe pas");
                             }
                         } else {
                             articlesErrors.add("Impossible d'enregistrer une commande avec un article NULL");
@@ -68,7 +68,6 @@ public class CommandeClientServiceImpl implements CommandeClientService {
         if (!articlesErrors.isEmpty()) {
             throw new InvalidEntityException("L'article n'existe pas dans la BD", ErrorCodes.ARTICLE_NOT_FOUND, articlesErrors);
         }
-        //Mise a jour de la date de commande --> todo
         //enregistrer la commandeclient
         CommandeClient commandeClient = CommandeClientMapper.toEntity(dto);
         //injecter le vrai client recuperer en base avant insertion
@@ -77,18 +76,19 @@ public class CommandeClientServiceImpl implements CommandeClientService {
         commandeClient.setEtatCommande(EtatCommande.EN_PREPARATION);
         //modifier la date de commande
         commandeClient.setDateCommande(Instant.now());
-        CommandeClient savedCommandeClient = commandeClientRepository.save(commandeClient);
-        //enregistrer la lignecommandeclient --> assigner saveCommandeClient à ligneCommandeClient
-        if (dto.ligneCommandeClients() != null) {
-            dto.ligneCommandeClients().forEach(ligCmdClt -> {
-                LigneCommandeClient ligneCommandeClient = LigneCommandeClientMapper.toEntity(ligCmdClt);
-                ligneCommandeClient.setId(null);
-                ligneCommandeClient.setCommandeClient(savedCommandeClient);
-                ligneCommandeClient.setIdEntreprise(dto.idEntreprise());
-                LigneCommandeClient savedLigneCommandeClient = ligneCommandeClientRepository.save(ligneCommandeClient);
-            });
-        }
-        return CommandeClientMapper.toResponse(savedCommandeClient);
+
+        List<LigneCommandeClient> lignes = dto.ligneCommandeClients().stream().map(
+                ligDto -> {
+                    LigneCommandeClient ligne = LigneCommandeClientMapper.toEntity(ligDto);
+                    ligne.setCommandeClient(commandeClient);
+                    ligne.setIdEntreprise(dto.idEntreprise());
+                    return ligne;
+                }
+        ).toList();
+
+        commandeClient.setLigneCommandeClients(lignes);
+
+        return CommandeClientMapper.toResponse(commandeClientRepository.save(commandeClient));
     }
 
     @Override

@@ -39,7 +39,7 @@ public class VentesServiceImpl implements VentesService {
     @Override
     public VentesResponseDto save(VentesRequestDto dto) {
         //verfier le dto
-        if(dto==null){
+        if (dto == null) {
             throw new IllegalArgumentException("L' objet vente ne peut pas etre null");
         }
 
@@ -52,40 +52,53 @@ public class VentesServiceImpl implements VentesService {
         */
         //parcourir la liste ligne de vente, pour verifier si les articles existes
         List<String> articlesErrors = new ArrayList<>();
-        if(dto.ligneVentes()!=null){
+        if (dto.ligneVentes() != null) {
             dto.ligneVentes().forEach(
-                    ligVente ->{
-                        Optional<Article> article= articleRepository.findById(ligVente.idArticle());
-                        if (article.isEmpty()){
-                            articlesErrors.add("L'article avec l'id "+ ligVente.idArticle()+" n'existe pas");
+                    ligVente -> {
+                        Optional<Article> article = articleRepository.findById(ligVente.idArticle());
+                        if (article.isEmpty()) {
+                            articlesErrors.add("L'article avec l'id " + ligVente.idArticle() + " n'existe pas");
                         }
                     }
             );
-        }else {
+        } else {
             throw new IllegalArgumentException("L' objet LigneVente ne peut pas etre null");
         }
-        if(!articlesErrors.isEmpty()){
+        if (!articlesErrors.isEmpty()) {
             throw new InvalidEntityException("L'article n'existe pas dans le BDD", ErrorCodes.ARTICLE_NOT_FOUND, articlesErrors);
         }
 
-        Ventes ventes= VentesMapper.toEntity(dto);
+        Ventes ventes = VentesMapper.toEntity(dto);
         //update dateVente
         ventes.setDateVente(Instant.now());
         //save vente
-        Ventes ventesSave= ventesRepository.save(ventes);
-
-        //save ligneVente
+       /*
+       // Methodes faire deux fois le save et Ventes, ligneVentes
+        Ventes ventesSave = ventesRepository.save(ventes);
+        //save ligneVente, ligne par ligne
+        List<LigneVente> ligne = new ArrayList<>();
         dto.ligneVentes().forEach(
-                ligVentes->{
-                    LigneVente ligneVente= LigneVenteMapper.toEntity(ligVentes);
+                ligVentes -> {
+                    LigneVente ligneVente = LigneVenteMapper.toEntity(ligVentes);
                     ligneVente.setId(null);
                     ligneVente.setIdEntreprise(dto.idEntreprise());
                     ligneVente.setVente(ventesSave);
-                    ligneVenteRepository.save(ligneVente);
+                    LigneVente ligneVenteSaved = ligneVenteRepository.save(ligneVente);
+                    //recharger la ligne de vents
+                    ligne.add(ligneVenteSaved);
                 }
         );
+        ventesSave.setLigneVentes(ligne); */
+        List<LigneVente> lignes =dto.ligneVentes().stream().map(
+                ligDto ->{
+                    LigneVente ligne=LigneVenteMapper.toEntity(ligDto);
+                    ligne.setVente(ventes);
+                    ligne.setIdEntreprise(dto.idEntreprise());
+                    return ligne;
+                }).toList();
+        ventes.setLigneVentes(lignes);
+        Ventes ventesSave = ventesRepository.save(ventes);
         //update le mouvement de stock --> todo
-
         return VentesMapper.toResponseDto(ventesSave);
     }
 

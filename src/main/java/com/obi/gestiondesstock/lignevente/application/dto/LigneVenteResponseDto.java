@@ -9,9 +9,11 @@ public record LigneVenteResponseDto(
 
         Integer id,
 
-        VentesResponseDto vente,
+        //VentesResponseDto vente,
+        Integer idVente,
 
-        ArticleResponseDto article,
+        //ArticleResponseDto article,
+        Integer idArticle,
 
         BigDecimal quantite,
 

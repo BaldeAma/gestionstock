@@ -12,13 +12,18 @@ public record LigneCommandeClientRequestDto(
         //@NotNull(message = "L' Id est obligatoire")
         Integer id,
 
-        ArticleRequestDto article,
+        //ArticleRequestDto article,
+        @NotNull(message = "L' idArticle est obligatoire")
+        Integer idArticle,
 
-        @JsonIgnore
-        CommandeClientRequestDto commandeClient,
+        //@JsonIgnore
+        //CommandeClientRequestDto commandeClient,
+        Integer idCommandeClient,
 
+        @NotNull(message = "La quantite est obligatoire")
         BigDecimal quantite,
 
+        @NotNull(message = "le prix unitaire est obligatoire")
         BigDecimal prixUnitaire,
 
         Integer idEntreprise

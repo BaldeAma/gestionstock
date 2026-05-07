@@ -9,7 +9,7 @@ import java.util.List;
 
 public class VentesMapper {
 
-    //entity --> dto
+    //entity --> response dto
     public static VentesResponseDto toResponseDto(Ventes ventes) {
         if (ventes == null) {
             return null;

@@ -9,9 +9,11 @@ public record LigneCommandeClientResponseDto(
 
         Integer id,
 
-        ArticleResponseDto article,
+        //ArticleResponseDto article,
+        Integer idArticle,
 
-        CommandeClientResponseDto commandeClient,
+        //CommandeClientResponseDto commandeClient,
+        Integer idCommandeClient,
 
         BigDecimal quantite,
 

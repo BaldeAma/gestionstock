@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
-@Table(name = "commandeclient" )
+@Table(name = "commandeclient")
 public class CommandeClient extends AbstractEntity {
 
     @Column(name = "code")
@@ -38,7 +38,7 @@ public class CommandeClient extends AbstractEntity {
     @JoinColumn(name = "idclient")
     private Client client;
 
-    @OneToMany(mappedBy = "commandeClient")
+    @OneToMany(mappedBy = "commandeClient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LigneCommandeClient> ligneCommandeClients;
 
 }
